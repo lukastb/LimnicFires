@@ -13,5 +13,5 @@ Build a bayesian model that accounts for (i) correlation over time for variabels
 
 ## Data
 - DOC data over time (at the beginning, 2, 4, 6 and 8 hours after the beginning) for control and treatment
-- DOM data over time (at the beginning, 2, 4, 6 and 8 hours after the beginning) for control and treatment
+- DOM data over time (at the beginning, 2, 4, 6 and 8 hours after the beginning) for control and treatment (only some variables are of interest, i.e. SUVA254)
 - EEA data at the end of the experiment for control and treatment
