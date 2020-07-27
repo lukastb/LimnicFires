@@ -21,7 +21,7 @@ transformed parameters {
 		Ey[f,1] = alpha + beta * treatment[f];
 		for(t in 2:n_time) {
 			int dt = times[t] - times[t-1];
-			Ey[f,t] = alpha + beta * treatment[f] + gamma * y[t-1] * dt;
+			Ey[f,t] = alpha + beta * treatment[f] + gamma * y[f,t-1] * dt;
 		}
 	}
 
