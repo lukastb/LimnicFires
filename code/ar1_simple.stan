@@ -15,12 +15,22 @@ parameters {
 	real gamma; // strength of time dependence
 	real<lower=0> sigma;
 }
-model {
+transformed parameters {
+	matrix[n_flumes, n_time] Ey;
 	for (f in 1:n_flumes) {
-		y[f,1] ~ normal(alpha + beta * treatment[f], sigma);
+		Ey[f,1] = alpha + beta * treatment[f];
 		for(t in 2:n_time) {
 			int dt = times[t] - times[t-1];
-			y[f,t] ~ normal(alpha + beta * treatment[f] + gamma * y[t-1] * dt, sigma);
+			Ey[f,t] = alpha + beta * treatment[f] + gamma * y[t-1] * dt;
+		}
+	}
+
+}
+model {
+	for (f in 1:n_flumes) {
+		y[f,1] ~ normal(Ey[f,1], sigma);
+		for(t in 2:n_time) {
+			y[f,t] ~ normal(Ey[f,t], sigma);
 		}
 	}
 
