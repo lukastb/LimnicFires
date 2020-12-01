@@ -1,2 +1,3 @@
 ## stan compiled files
 code/*.rds
+.Rhistory
