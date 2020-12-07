@@ -94,6 +94,12 @@ mtext("Time (h)", side=1, line=4, cex=2)
 
 
 # 3rd plot
+params = as.matrix(fit_gp, pars = c('alpha', 'beta'))
+plotting = data.frame(type = c('treatment', 'control'))
+params[,2] = params[,1] + params[,2]
+plotting = data.frame(type = c('control', 'treatment'), median = apply(params, 2, median), lower = apply(params, 2, quantile, 0.05), upper = apply(params, 2, quantile, 0.95))
+
+
 par(mar=c(5,8,3,1))
 plot(1:2, plotting$median, ylim=c(3,4), xlim=c(0,3), xaxt='n', yaxt='n', xlab="", bty='n', ylab="", pch=c(21,21), bg=c("grey80", "grey20"), cex=2, cex.lab=2, cex.axis=2)
 segments(c(1,2), plotting$lower, y1 = plotting$upper)
