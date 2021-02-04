@@ -11,7 +11,8 @@ setwd("~/LimnicFires") # set working directory to where the folder"LimnicFires" 
 
 #####fit parafac comps#####
 # organize data
-data <- read.table("data/pf_4comp.txt", header=T)
+data <- read.table("data/pf_4comp.txt", header=T, sep=",")
+
 
 
 # create treat, flume and time col
@@ -84,10 +85,10 @@ stan_dat_comp4 = list(
 
 
 # autoregressive model
-fit_gp1 = stan("code/ar1_gp_comp1.stan", data = stan_dat_comp1, iter=10000, control=list(adapt_delta = 0.95)) 
-fit_gp2 = stan("code/ar1_gp_comp2.stan", data = stan_dat_comp2, iter=10000, control=list(adapt_delta = 0.95))
-fit_gp3 = stan("code/ar1_gp_comp3.stan", data = stan_dat_comp3, iter=10000, control=list(adapt_delta = 0.95))
-fit_gp4 = stan("code/ar1_gp_comp4.stan", data = stan_dat_comp4, iter=10000, control=list(adapt_delta = 0.95))
+fit_gp1 = stan("code/ar1_gp_comp.stan", data = stan_dat_comp1, iter=10000, control=list(adapt_delta = 0.95)) 
+fit_gp2 = stan("code/ar1_gp_comp.stan", data = stan_dat_comp2, iter=10000, control=list(adapt_delta = 0.95))
+fit_gp3 = stan("code/ar1_gp_comp.stan", data = stan_dat_comp3, iter=10000, control=list(adapt_delta = 0.95))
+fit_gp4 = stan("code/ar1_gp_comp.stan", data = stan_dat_comp4, iter=10000, control=list(adapt_delta = 0.95))
 
 
 # comp1
@@ -183,7 +184,7 @@ segments(c(1,2), plotting1$lower, y1 = plotting1$upper, lwd=c(1.3, 1.3))
 axis(1, at=c(1,2), labels=c('', ''), cex=2, cex.lab=2, cex.axis=3)
 axis(2, line=-5, cex=2, cex.lab=2, cex.axis=3)
 mtext(c("Control", "Treatment"), at=c(1,2), side=1, line=2.5, cex=2)
-mtext(side=2, at=max(plotting1$upper)*1.075, "(b)", cex=2, las=1, adj=0.5)
+mtext(side=2, at=max(plotting1$upper)*1.00425, "(b)", cex=2, las=1, adj=0.5)
 
 
 
@@ -227,16 +228,11 @@ segments(c(1,2), plotting2$lower, y1 = plotting2$upper, lwd=c(1.3, 1.3))
 axis(1, at=c(1,2), labels=c('', ''), cex=2, cex.lab=2, cex.axis=3)
 axis(2, line=-5, cex=2, cex.lab=2, cex.axis=3)
 mtext(c("Control", "Treatment"), at=c(1,2), side=1, line=2.5, cex=2)
-mtext(side=2, at=max(plotting2$upper)*1.075, "(d)", cex=2, las=1, adj=0.5)
+mtext(side=2, at=max(plotting2$upper)*1.0033, "(d)", cex=2, las=1, adj=0.5)
 
 
 
 #####plot comp3 2 panel plot#####
-
-
-
-## Try to make the figure nice! maybe put Time (h) on the very letf of the plot
-## Move on on the big screen to see how it looks like
 
 
 # plot the total treatment effect
@@ -262,7 +258,7 @@ vioplot(comp3_tall_s$value ~ comp3_tall_s$treat + comp3_tall$time, pchMed=19, co
 axis(side=2, at=c(0.19, 0.20, 0.21), labels = T, cex.axis=3) #y-axis
 axis(side=1, at=c(1.5, 4, 6.5, 9, 11.5, 14), labels = c("1", "2", "3", "4", "6", "8"), cex.axis=3, line=0, padj = 0.75) #x-axis
 mtext(c("Raman Units", "Component3"), side=2, line=c(5, 7.5), cex=c(1.7, 2))
-mtext(side=2, at=max(comp3_tall$value)*1.01, "(a)", cex=2, las=1, adj=2.5)
+mtext(side=2, at=max(comp3_tall$value)*1.01, "(e)", cex=2, las=1, adj=2.5)
 mtext("Time (h)", side=1, line=4.5, cex=2)
 #mtext(c("1", "2", "3", "4", "6", "8"), side=1, line=2.5, cex=1.3, at=c(1.5, 4, 6.5, 9, 11.5, 14))
 
@@ -271,21 +267,16 @@ legend(0.2,0.1875, legend=c("Control", "Treatment"), pch=c(22, 22), pt.bg=c("gra
 
 # 2nd plot
 par(mar=c(6,7,4,0)) # sets the bottom, left, top and right margins 
-plot(1:2, plotting3$median, xlim=c(0,3), ylim=c(-0.05,max(plotting3$upper)), xaxt='n', yaxt='n', xlab='', bty='n', ylab="", pch=c(21,21), bg=c("grey90", "grey50"), cex=3)
+plot(1:2, plotting3$median, xlim=c(0,3), ylim=c(min(plotting3$lower),max(plotting3$upper)), xaxt='n', yaxt='n', xlab='', bty='n', ylab="", pch=c(21,21), bg=c("grey90", "grey50"), cex=3)
 segments(c(1,2), plotting3$lower, y1 = plotting3$upper, lwd=c(1.3, 1.3))
 axis(1, at=c(1,2), labels=c('', ''), cex=2, cex.lab=2, cex.axis=3)
 axis(2, line=-5, cex=2, cex.lab=2, cex.axis=3)
 mtext(c("Control", "Treatment"), at=c(1,2), side=1, line=2.5, cex=2)
-mtext(side=2, at=max(plotting3$upper)*1.1, "(b)", cex=2, las=1, adj=0.5)
+mtext(side=2, at=max(plotting3$upper)*1.0035, "(f)", cex=2, las=1, adj=0.5)
 
 
 
 #####plot comp4 2 panel plot#####
-
-
-
-## Try to make the figure nice! maybe put Time (h) on the very letf of the plot
-## Move on on the big screen to see how it looks like
 
 
 # plot the total treatment effect
@@ -311,7 +302,7 @@ vioplot(comp4_tall_s$value ~ comp4_tall_s$treat + comp4_tall$time, pchMed=19, co
 axis(side=2, at=c(0.10, 0.12, 0.14), labels = T, cex.axis=3) #y-axis
 axis(side=1, at=c(1.5, 4, 6.5, 9, 11.5, 14), labels = c("1", "2", "3", "4", "6", "8"), cex.axis=3, line=0, padj = 0.75) #x-axis
 mtext(c("Raman Units", "Component4"), side=2, line=c(5, 7.5), cex=c(1.7, 2))
-mtext(side=2, at=max(comp4_tall$value)*1.0225, "(c)", cex=2, las=1, adj=2.5)
+mtext(side=2, at=max(comp4_tall$value)*1.0225, "(g)", cex=2, las=1, adj=2.5)
 mtext("Time (h)", side=1, line=4.5, cex=2)
 #mtext(c("1", "2", "3", "4", "6", "8"), side=1, line=2.5, cex=1.3, at=c(1.5, 4, 6.5, 9, 11.5, 14))
 
@@ -320,11 +311,11 @@ legend(0.2,0.098, legend=c("Control", "Treatment"), pch=c(22, 22), pt.bg=c("gray
 
 # 2nd plot
 par(mar=c(6,7,4,0)) # sets the bottom, left, top and right margins 
-plot(1:2, plotting4$median, xlim=c(0,3), ylim=c(-0.05,max(plotting4$upper)), xaxt='n', yaxt='n', xlab='', bty='n', ylab="", pch=c(21,21), bg=c("grey90", "grey50"), cex=3)
+plot(1:2, plotting4$median, xlim=c(0,3), ylim=c(min(plotting4$lower),max(plotting4$upper)), xaxt='n', yaxt='n', xlab='', bty='n', ylab="", pch=c(21,21), bg=c("grey90", "grey50"), cex=3)
 segments(c(1,2), plotting4$lower, y1 = plotting4$upper, lwd=c(1.3, 1.3))
 axis(1, at=c(1,2), labels=c('', ''), cex=2, cex.lab=2, cex.axis=3)
 axis(2, line=-5, cex=2, cex.lab=2, cex.axis=3)
 mtext(c("Control", "Treatment"), at=c(1,2), side=1, line=2.5, cex=2)
-mtext(side=2, at=max(plotting4$upper)*1.1, "(d)", cex=2, las=1, adj=0.5)
+mtext(side=2, at=max(plotting4$upper)*1.01, "(h)", cex=2, las=1, adj=0.5)
 
 

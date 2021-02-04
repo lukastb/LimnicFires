@@ -54,7 +54,7 @@ model {
 	sigma ~ std_normal();
 
 	// regression priors
-	alpha ~ normal(0, 0.01);
-	beta ~ normal(0, 1);
+	alpha ~ normal(0, 10);
+	beta ~ normal(0, 5);
 
 }
